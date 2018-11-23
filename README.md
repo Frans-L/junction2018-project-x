@@ -17,7 +17,8 @@ https://github.com/Frans-L/junction2018-project-x
 
 - Main event: https://live.hackjunction.com/
 - Schedule: https://live.hackjunction.com/schedule/
-- Challenges: https://live.hackjunction.com/tracks/
+- Challenges Site 1: https://live.hackjunction.com/tracks/
+- Challenges Site 2: https://2018.hackjunction.com/challenges
 
 ### Guides
 
