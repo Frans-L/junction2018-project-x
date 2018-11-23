@@ -11,12 +11,21 @@
 
 ## Links
 
+
+### Event
+
 - Main event: https://live.hackjunction.com/
 - Schedule: https://live.hackjunction.com/schedule/
 - Challenges: https://live.hackjunction.com/tracks/
 
+### Guides
+
+
+### Others
 
 - Theme music: https://www.youtube.com/watch?v=cw9CK3Tn4Aw
+
+
 
 ## Deadlines
 
