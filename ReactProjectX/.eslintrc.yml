@@ -23,6 +23,8 @@ rules:
   react/jsx-filename-extension: 0
   quotes: [2, "single"]
   no-console: 0
+  no-use-before-define: 0
+  no-useless-concat: 0
 
   no-unused-vars: ["warn"]
   react/no-unused-state: ["warn"]
