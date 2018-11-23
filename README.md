@@ -12,14 +12,18 @@
 ## Links
 
 Main event: https://live.hackjunction.com/
+
 Schedule: https://live.hackjunction.com/schedule/
+
 Challenges: https://live.hackjunction.com/tracks/
+
+
 
 Theme music: https://www.youtube.com/watch?v=cw9CK3Tn4Aw
 
 ## Deadlines
 
-Friday: 23:59 => Project draft submission
-Sunday: 10:00 => Project submission
-Sunday: 17:30 => We can buy 31920 beer cans
+- Friday: 23:59 => Project draft submission
+- Sunday: 10:00 => Project submission
+- Sunday: 17:30 => We can buy 31920 beer cans
 
