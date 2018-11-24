@@ -24,25 +24,25 @@ sm = graph.get_tensor_by_name("output:0")
 points = [
     {
         'lat': 60.22,
-        'lon': 22.43,
+        'lng': 22.43,
         'timestamp': time(),
         'has_car': True,
     },
     {
         'lat': 60.23,
-        'lon': 22.44,
+        'lng': 22.44,
         'timestamp': time(),
         'has_car': True,
     },
     {
         'lat': 60.25,
-        'lon': 22.43,
+        'lng': 22.43,
         'timestamp': time(),
         'has_car': True,
     },
     {
         'lat': 60.25,
-        'lon': 22.43,
+        'lng': 22.43,
         'timestamp': time(),
         'has_car': False,
     },
