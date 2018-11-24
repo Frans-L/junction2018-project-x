@@ -6,7 +6,7 @@ import parkingSpaces from '../../data/ParkingSpaces';
 import { distanceFromParkingSpace } from '../../tools/distanceFromLine';
 import styles from './styles';
 
-const colorMap = colorInterpolate(['#4db546', '#f88181']);
+const colorMap = colorInterpolate(['#4db546', 'yellow', '#f88181']);
 
 const ParkingMap = compose(
   withProps({
@@ -51,7 +51,10 @@ function heatPolylines(parkingSpaces, cameraPoints) {
       return {
         path: parkingSpace,
         heat: cameraPoints
-          .map(cameraPoint => 1 / distanceFromParkingSpace(cameraPoint, parkingSpace) ** 2)
+          .map(
+            cameraPoint =>
+              cameraPoint.weight / distanceFromParkingSpace(cameraPoint, parkingSpace) ** 2,
+          )
           .reduce((dist1, dist2) => dist1 + dist2, 0),
       };
     })
