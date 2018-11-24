@@ -24,4 +24,4 @@ const parkingSpaces = [
   [{ lat: 60.1869782, lng: 24.8333388 }, { lat: 60.1871778, lng: 24.8335114 }],
 ];
 
-export default ParkingSpaces;
+export default parkingSpaces;
