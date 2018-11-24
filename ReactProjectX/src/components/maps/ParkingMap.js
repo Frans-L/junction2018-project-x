@@ -5,7 +5,7 @@ import { withScriptjs, withGoogleMap, GoogleMap, Polyline, Marker } from 'react-
 import ParkingSpaces from '../../data/ParkingSpaces';
 import { distanceFromParkingSpace } from '../../tools/distanceFromLine';
 
-const colorMap = colorInterpolate(['red', 'yellow', 'green']);
+const colorMap = colorInterpolate(['green', 'yellow', 'red']);
 
 const ParkingMap = compose(
   withProps({
@@ -35,7 +35,7 @@ const ParkingMap = compose(
         return (
           <Polyline
             path={heatPolyline.path}
-            options={{ strokeColor: colorMap(heatPolyline.heat || 0), strokeWeight: 8 }}
+            options={{ strokeColor: colorMap(heatPolyline.heat || 0), strokeWeight: 12 }}
             key={i}
           />
         );
