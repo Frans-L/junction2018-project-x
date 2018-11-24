@@ -25,7 +25,7 @@ const ParkingMap = compose(
       console.log(pos)
       return <Marker position={pos} />
     })}
-    {ParkingSpaces.map(parkingSpace => <Polyline path={parkingSpace} key={JSON.stringify(parkingSpace)} />)}
+    {ParkingSpaces.map(parkingSpace => <Polyline path={parkingSpace} options={{strokeColor: "#FF0000", strokeWeight: 6}} key={JSON.stringify(parkingSpace)} />)}
   </GoogleMap>
 }
 )
