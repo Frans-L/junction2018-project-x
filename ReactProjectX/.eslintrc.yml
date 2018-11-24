@@ -27,6 +27,7 @@ rules:
   arrow-body-style: 0
   no-shadow: 0
   react/no-array-index-key: 0
+  line-break-style: 0
 
   no-unused-vars: ['warn']
   react/no-unused-state: ['warn']
