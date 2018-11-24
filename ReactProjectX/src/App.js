@@ -36,12 +36,15 @@ class App extends Component {
 
   render() {
     const { center, cameraPoints } = this.state;
-    return (
-      <div className="App">
-        <ParkingMap center={center} cameraPoints={cameraPoints} />
-        <GlobalStyle />
-      </div>
-    );
+    if (center) {
+      return (
+        <div className="App">
+          <ParkingMap center={center} cameraPoints={cameraPoints} />
+          <GlobalStyle />
+        </div>
+      );
+    }
+    return <div>Loading</div>;
   }
 }
 
