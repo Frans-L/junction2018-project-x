@@ -2,13 +2,11 @@ import bottle
 bottle.BaseRequest.MEMFILE_MAX = 1024 * 1024
 
 from bottle import route, request, run, hook, response
-import tensorflow as tf
 
 import cv2
 import numpy as np
 from time import time
 import json
-from matplotlib import pyplot as plt
 
 @hook('after_request')
 def enable_cors():
@@ -20,16 +18,7 @@ def enable_cors():
     response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
     response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
 
-sess = tf.Session()
-
-saver = tf.train.import_meta_graph('car-detector.tf-1000.meta')
-saver.restore(sess,tf.train.latest_checkpoint('./'))
-graph = tf.get_default_graph()
-
-tf_data = graph.get_tensor_by_name("image_input:0")
-tf_train = graph.get_tensor_by_name("train_input:0")
-tf_label = graph.get_tensor_by_name("labels_input:0")
-sm = graph.get_tensor_by_name("output:0")
+model = cv2.CascadeClassifier('cars.xml')
 
 points = [
     {
@@ -64,28 +53,24 @@ def img():
 
     file = next(request.files.values()).file
     data = np.asarray(bytearray(file.read()), np.uint8)
-    orig = cv2.cvtColor(cv2.imdecode(data, cv2.CV_32S), cv2.COLOR_BGR2RGB)
+    orig = cv2.imdecode(data, cv2.CV_8U)
 
-    w, h, _ = orig.shape
-    img = orig[int(w/3):int(-w/3), int(h/3):int(-h/3)]
+    cars = model.detectMultiScale(orig, 1.1, 1)
 
-    img = sess.run([sm], feed_dict={tf_data: img.reshape([1, *img.shape]), tf_train: False})
+    for (x,y,w,h) in cars:
+        cv2.rectangle(orig, (x,y), (x+w,y+h), (0,0,255), 2)
 
-    img = np.array(img)
+    cv2.imshow('win', orig)
+    cv2.waitKey(0)
+    # data = {
+    #   **request.json,
+    #   'timestamp': time(),
+    #   'has_car': has_car,
+    # }
 
-    has_car = np.average(img) > 0.5
+    # points.append(data)
 
-    print(np.max(img), np.min(img), np.average(img))
-
-    data = {
-      **request.json,
-      'timestamp': time(),
-      'has_car': has_car,
-    }
-
-    points.append(data)
-
-    return json.dumps(data)
+    # return json.dumps(data)
 
     # plt.subplot(211)
     # plt.imshow(orig)
@@ -101,7 +86,6 @@ def point():
 
 if __name__ == '__main__':
     try:
-        run(host='0.0.0.0', port=9999, server='auto')
+        run(host='0.0.0.0', port=8000, server='auto')
     finally:
         print('detaching...')
-        sess.close()
