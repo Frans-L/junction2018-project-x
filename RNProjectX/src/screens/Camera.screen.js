@@ -57,17 +57,15 @@ class CameraScreen extends React.Component {
       const resultCapture = await capture;
 
       const uri = resultCapture.uri; // eslint-disable-line
-      const location = this.location; // eslint-disable-line
+      const location = this.state.location; // eslint-disable-line
 
-      console.log({ uri, location });
+      // console.log({ uri, location });
 
-      try {
-        sendImage({ uri, location });
-        this.setState({ sendStatus: 'success' });
-      } catch (err) {
-        console.log(err);
-        this.setState({ sendStatus: 'fail' });
-      }
+      sendImage(
+        { uri, location },
+        () => this.setState({ sendStatus: 'success' }),
+        () => this.setState({ sendStatus: 'fail' }),
+      );
 
       const { capturing } = this.state;
       if (capturing) setTimeout(this.capture, CAPTURE_INTERVAL);

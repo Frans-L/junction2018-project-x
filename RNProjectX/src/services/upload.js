@@ -1,6 +1,6 @@
 const SERVER_URL = 'http://9d885e4e.ngrok.io/img';
 
-export const sendImage = async ({ uri, location }) => {
+export const sendImage = async ({ uri, location }, success, fail) => {
   const img = {
     type: 'image/jpeg',
     name: 'car.jpg',
@@ -11,12 +11,17 @@ export const sendImage = async ({ uri, location }) => {
   body.append('img', img);
   body.append('loc', JSON.stringify(location));
 
-  const d = await fetch(SERVER_URL, {
-    method: 'POST',
-    body,
-  });
+  try {
+    const d = await fetch(SERVER_URL, {
+      method: 'POST',
+      body,
+    });
 
-  if (d.status < 200 || d.status >= 300) throw new Error(d.statusText);
+    if (d.status < 200 || d.status >= 300) throw new Error(d.statusText);
 
-  console.log('Send', d);
+    success();
+  } catch (err) {
+    console.log(err);
+    fail(err);
+  }
 };
