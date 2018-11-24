@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { Button, Text, Icon } from 'native-base';
 import KeepAwake from 'react-native-keep-awake';
@@ -8,7 +8,7 @@ import { sendImage } from '../services/upload';
 import { getPosition } from '../services/location';
 import { Crosshair } from '../components/Crosshair';
 
-const CAPTURE_INTERVAL = 250;
+const CAPTURE_INTERVAL = 50;
 
 class CameraScreen extends React.Component {
   state = {
