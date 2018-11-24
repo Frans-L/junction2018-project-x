@@ -36,7 +36,7 @@ const ParkingMap = compose(
       heatPolylines(ParkingSpaces, props.cameraPoints).map((heatPolyline, i) => {
         let hexHeat = (heatPolyline.heat * 255).toString(16).slice(0, 2)
         console.log(hexHeat)
-        return <Polyline path={heatPolyline.path} options={{ strokeColor: `#${hexHeat}0000`, strokeWeight: 6 }} key={i} />
+        return <Polyline path={heatPolyline.path} options={{ strokeColor: `#${hexHeat}0000`, strokeWeight: 8 }} key={i} />
       })
     }
   </GoogleMap>
@@ -50,9 +50,8 @@ function heatPolylines(ParkingSpaces, cameraPoints) {
     return {
       path: parkingSpace,
       heat: cameraPoints
-        .slice(0, 10)
         .filter(cameraPoint => cameraPoint.has_car)
-        .map(cameraPoint => distanceFromParkingSpace(cameraPoint, parkingSpace))
+        .map(cameraPoint => 1 / distanceFromParkingSpace(cameraPoint, parkingSpace))
         .reduce((dist1, dist2) => dist1 + dist2, 0)
     }
   }).map(heatPolyline => {
