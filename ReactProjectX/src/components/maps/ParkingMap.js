@@ -6,7 +6,7 @@ import parkingSpaces from '../../data/ParkingSpaces';
 import { distanceFromParkingSpace } from '../../tools/distanceFromLine';
 import styles from './styles';
 
-const colorMap = colorInterpolate(['green', 'yellow', 'red']);
+const colorMap = colorInterpolate(['#4db546', '#f88181']);
 
 const ParkingMap = compose(
   withProps({
