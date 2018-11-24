@@ -2,15 +2,43 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { Button, Text, Icon } from 'native-base';
+import KeepAwake from 'react-native-keep-awake';
+
 import { sendImage } from '../services/upload';
 import { getPosition } from '../services/location';
+import { Crosshair } from '../components/Crosshair';
 
-const CAPTURE_INTERVAL = 750;
+const CAPTURE_INTERVAL = 250;
 
 class CameraScreen extends React.Component {
   state = {
     sendStatus: 'idle',
     capturing: false,
+    location: {},
+  };
+
+  componentDidMount() {
+    this.updatePosition();
+  }
+
+  componentDidUpdate(pProps, pState) {
+    const { pSendStatus } = pState;
+    const { sendStatus } = this.state;
+    if (sendStatus !== 'idle' && pSendStatus !== sendStatus) {
+      clearTimeout(this.statusUpadter);
+      this.statusUpadter = setTimeout(() => this.setState({ sendStatus: 'idle' }), 750);
+    }
+  }
+
+  updatePosition = async () => {
+    try {
+      const r = await getPosition();
+      this.setState({ location: r.coords });
+    } catch (err) {
+      console.log(err);
+    }
+
+    this.updatePosition();
   };
 
   onCapturePress = () => {
@@ -26,24 +54,19 @@ class CameraScreen extends React.Component {
         width: 480,
       };
       const capture = this.camera.takePictureAsync(options);
-      const getLocation = getPosition();
-      const results = await Promise.all([capture, getLocation]);
+      const resultCapture = await capture;
 
-      const uri = results[0].uri; // eslint-disable-line
-      const location = results[1].coords;
+      const uri = resultCapture.uri; // eslint-disable-line
+      const location = this.location; // eslint-disable-line
 
       console.log({ uri, location });
 
       try {
-        await sendImage({ uri, location });
+        sendImage({ uri, location });
         this.setState({ sendStatus: 'success' });
       } catch (err) {
         console.log(err);
         this.setState({ sendStatus: 'fail' });
-      } finally {
-        setTimeout(() => {
-          this.setState({ sendStatus: 'idle' });
-        }, CAPTURE_INTERVAL);
       }
 
       const { capturing } = this.state;
@@ -60,10 +83,11 @@ class CameraScreen extends React.Component {
   };
 
   render() {
-    const { sendStatus, capturing } = this.state;
-    console.log(capturing);
+    const { sendStatus, capturing, location } = this.state;
+    console.log({ location });
     return (
       <View style={styles.container}>
+        <KeepAwake />
         <RNCamera
           ref={ref => {
             this.camera = ref;
@@ -72,7 +96,9 @@ class CameraScreen extends React.Component {
         />
         <View style={styles.overlay}>
           <View style={{ flexDirection: 'row' }}>
-            <View style={styles.footerView} />
+            <View style={styles.footerView}>
+              <Text style={{ color: 'white' }}>{location.latitude + ' ' + location.longitude}</Text>
+            </View>
             <View style={styles.footerView}>
               <Button
                 onPress={this.onCapturePress}
@@ -90,6 +116,7 @@ class CameraScreen extends React.Component {
             </View>
           </View>
         </View>
+        <Crosshair />
       </View>
     );
   }
