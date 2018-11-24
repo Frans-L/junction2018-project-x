@@ -39,6 +39,7 @@ const ParkingMap = compose(
           />
         );
       })}
+      <Marker position={props.center} icon="/images/car.png" />
     </GoogleMap>
   );
 });

@@ -35,9 +35,10 @@ class App extends Component {
   };
 
   render() {
+    const { center, cameraPoints } = this.state;
     return (
       <div className="App">
-        <ParkingMap center={this.state.center} cameraPoints={this.state.cameraPoints} />
+        <ParkingMap center={center} cameraPoints={cameraPoints} />
         <GlobalStyle />
       </div>
     );
