@@ -8,3 +8,8 @@
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
+
+### Virtualenv
+PythonServer/lib
+PythonServer/bin
+PythonServer/include
