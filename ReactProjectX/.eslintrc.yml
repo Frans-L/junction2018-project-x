@@ -29,6 +29,7 @@ rules:
 
   no-unused-vars: ['warn']
   react/no-unused-state: ['warn']
+  react/destructuring-assignment: 0
 
   prettier/prettier:
     - error
