@@ -1,6 +1,6 @@
-const SERVER_URL = 'http://10.100.12.103:9999/img';
+const SERVER_URL = 'http://9d885e4e.ngrok.io/img';
 
-export const sendImage = async ({ uri, location }) => {
+export const sendImage = async ({ uri, location }, success, fail) => {
   const img = {
     type: 'image/jpeg',
     name: 'car.jpg',
@@ -9,12 +9,19 @@ export const sendImage = async ({ uri, location }) => {
 
   const body = new FormData();
   body.append('img', img);
-  body.append('loc', location);
+  body.append('loc', JSON.stringify(location));
 
-  const d = await fetch(SERVER_URL, {
-    method: 'POST',
-    body,
-  });
+  try {
+    const d = await fetch(SERVER_URL, {
+      method: 'POST',
+      body,
+    });
 
-  console.log('Send', d);
+    if (d.status < 200 || d.status >= 300) throw new Error(d.statusText);
+
+    success();
+  } catch (err) {
+    console.log(err);
+    fail(err);
+  }
 };

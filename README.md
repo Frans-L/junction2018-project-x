@@ -1,7 +1,14 @@
 # junction2018-project-x
 
 
-## Winning criteria (our view)
+## Winning criteria 
+
+- Innovativeness: a new solution, not an existing product (0-5 points)
+- Effectiveness: improvement on the service level of city guidance (0-5 points)
+- Sustainability: how well does the solution guide people towards sustainable mobility (0-5 points)
+- Feasibility: the solution can be integrated to production (0-5 points).
+
+## Winning criteria (our view, overall)
 
 - Wow effect
 - "Why isn't this invented before?"
