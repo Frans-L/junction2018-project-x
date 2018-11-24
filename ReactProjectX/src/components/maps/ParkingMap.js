@@ -1,6 +1,7 @@
 import React from 'react'
 import { compose, withProps } from "recompose"
 import { withScriptjs, withGoogleMap, GoogleMap, Polyline } from "react-google-maps"
+import ParkingSpaces from '../../data/ParkingSpaces'
 
 const ParkingMap = compose(
   withProps({
@@ -16,7 +17,7 @@ const ParkingMap = compose(
     defaultZoom={16}
     defaultCenter={props.center}
   >
-    <Polyline path={[{ lat: -34.397, lng: 150.644 }, { lat: -35.397, lng: 149.644 }]} />
+    {ParkingSpaces.map(parkingSpace => <Polyline path={parkingSpace} key={JSON.stringify(parkingSpace)} />)}
   </GoogleMap>
 }
 )
