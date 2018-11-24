@@ -1,11 +1,11 @@
-import React from 'react'
-import { compose, withProps } from "recompose"
-import { withScriptjs, withGoogleMap, GoogleMap, Polyline, Marker } from "react-google-maps"
-import ParkingSpaces from '../../data/ParkingSpaces'
-import { distanceFromParkingSpace } from '../../tools/distanceFromLine'
-import colorInterpolate from 'color-interpolate'
+import React from 'react';
+import { compose, withProps } from 'recompose';
+import colorInterpolate from 'color-interpolate';
+import { withScriptjs, withGoogleMap, GoogleMap, Polyline, Marker } from 'react-google-maps';
+import ParkingSpaces from '../../data/ParkingSpaces';
+import { distanceFromParkingSpace } from '../../tools/distanceFromLine';
 
-const colorMap = colorInterpolate(['red', 'yellow', 'green'])
+const colorMap = colorInterpolate(['red', 'yellow', 'green']);
 
 const ParkingMap = compose(
   withProps({
@@ -29,16 +29,20 @@ const ParkingMap = compose(
         }
         return <Marker position={pos} key={i} />
       }) */}
-      {
-
-        heatPolylines(ParkingSpaces, props.cameraPoints).map((heatPolyline, i) => {
-          let hexHeat = (heatPolyline.heat * 255).toString(16).slice(0, 2)
-          console.log(heatPolyline.heat)
-          return <Polyline path={heatPolyline.path} options={{ strokeColor: colorMap(heatPolyline.heat || 0), strokeWeight: 8 }} key={i} />
-        })
-      }
-    </GoogleMap>)
-})
+      {heatPolylines(ParkingSpaces, props.cameraPoints).map((heatPolyline, i) => {
+        const hexHeat = (heatPolyline.heat * 255).toString(16).slice(0, 2);
+        console.log(heatPolyline.heat);
+        return (
+          <Polyline
+            path={heatPolyline.path}
+            options={{ strokeColor: colorMap(heatPolyline.heat || 0), strokeWeight: 8 }}
+            key={i}
+          />
+        );
+      })}
+    </GoogleMap>
+  );
+});
 
 function heatPolylines(parkingSpaces, cameraPoints) {
   let maxHeat = 0;

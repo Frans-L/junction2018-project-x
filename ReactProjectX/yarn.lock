@@ -1131,6 +1131,7 @@ ajv@^6.0.1, ajv@^6.1.0, ajv@^6.5.3, ajv@^6.5.5:
 almost-equal@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/almost-equal/-/almost-equal-1.1.0.tgz#f851c631138757994276aa2efbe8dfa3066cccdd"
+  integrity sha1-+FHGMROHV5lCdqou++jfowZszN0=
 
 alphanum-sort@^1.0.0:
   version "1.0.2"
@@ -2190,6 +2191,7 @@ circular-json@^0.3.1:
 clamp@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/clamp/-/clamp-1.0.1.tgz#66a0e64011816e37196828fdc8c8c147312c8634"
+  integrity sha1-ZqDmQBGBbjcZaCj9yMjBRzEshjQ=
 
 class-utils@^0.3.5:
   version "0.3.6"
@@ -2285,6 +2287,7 @@ color-convert@^1.9.0, color-convert@^1.9.1:
 color-interpolate@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/color-interpolate/-/color-interpolate-1.0.4.tgz#b312e2eda2b276a47a854a5c9df0c5c4ccdc226f"
+  integrity sha512-U2T87VEjGA+oRQP4DIifi+QpXGQUEo2fpsr02IVkrFH1K9gBDWDTudZkjRpLbGd1bIrr1yfgd57gAKlLnbaquw==
   dependencies:
     clamp "^1.0.1"
     color-parse "^1.2.0"
@@ -2304,6 +2307,7 @@ color-name@^1.0.0:
 color-parse@^1.2.0:
   version "1.3.7"
   resolved "https://registry.yarnpkg.com/color-parse/-/color-parse-1.3.7.tgz#34ac4fb0782b992d3614417b60896c4884771b26"
+  integrity sha512-8G6rPfyTZhWYKU7D2hwywTjA4YlqX/Z7ClqTEzh5ENc5QkLOff0u8EuyNZR6xScEBhWpAyiDrrVGNUE/Btg2LA==
   dependencies:
     color-name "^1.0.0"
     defined "^1.0.0"
@@ -2312,6 +2316,7 @@ color-parse@^1.2.0:
 color-space@^1.14.3:
   version "1.16.0"
   resolved "https://registry.yarnpkg.com/color-space/-/color-space-1.16.0.tgz#611781bca41cd8582a1466fd9e28a7d3d89772a2"
+  integrity sha512-A6WMiFzunQ8KEPFmj02OnnoUnqhmSaHaZ/0LVFcPTdlvm8+3aMJ5x1HRHy3bDHPkovkf4sS0f4wsVvwk71fKkg==
   dependencies:
     hsluv "^0.0.3"
     mumath "^3.3.4"
@@ -2938,6 +2943,7 @@ define-property@^2.0.2:
 defined@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/defined/-/defined-1.0.0.tgz#c98d9bcef75674188e110969151199e39b1fa693"
+  integrity sha1-yY2bzvdWdBiOEQlpFRGZ45sfppM=
 
 del@^3.0.0:
   version "3.0.0"
@@ -4553,6 +4559,7 @@ hsla-regex@^1.0.0:
 hsluv@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/hsluv/-/hsluv-0.0.3.tgz#829107dafb4a9f8b52a1809ed02e091eade6754c"
+  integrity sha1-gpEH2vtKn4tSoYCe0C4JHq3mdUw=
 
 html-comment-regex@^1.1.0:
   version "1.1.2"
@@ -5104,6 +5111,7 @@ is-path-inside@^1.0.0:
 is-plain-obj@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-plain-obj/-/is-plain-obj-1.1.0.tgz#71a50c8429dfca773c92a390a4a03b39fcd51d3e"
+  integrity sha1-caUMhCnfync8kqOQpKA7OfzVHT4=
 
 is-plain-object@^2.0.1, is-plain-object@^2.0.3, is-plain-object@^2.0.4:
   version "2.0.4"
@@ -5902,6 +5910,7 @@ left-pad@^1.3.0:
 lerp@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/lerp/-/lerp-1.0.3.tgz#a18c8968f917896de15ccfcc28d55a6b731e776e"
+  integrity sha1-oYyJaPkXiW3hXM/MKNVaa3Med24=
 
 leven@^2.1.0:
   version "2.1.0"
@@ -6414,6 +6423,7 @@ multicast-dns@^6.0.1:
 mumath@^3.3.4:
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/mumath/-/mumath-3.3.4.tgz#48d4a0f0fd8cad4e7b32096ee89b161a63d30bbf"
+  integrity sha1-SNSg8P2MrU57Mglu6JsWGmPTC78=
   dependencies:
     almost-equal "^1.1.0"
 
