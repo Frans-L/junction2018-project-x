@@ -1,7 +1,7 @@
 import React from 'react';
 import HeatmapLayer from 'react-google-maps/lib/components/visualization/HeatmapLayer';
 import { compose, withProps } from 'recompose';
-import { withScriptjs, withGoogleMap, GoogleMap } from 'react-google-maps';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 
 const ParkingMap = compose(
   withProps({
@@ -19,6 +19,7 @@ const ParkingMap = compose(
   return (
     <GoogleMap defaultZoom={16} defaultCenter={props.center}>
       <HeatmapLayer data={autismPoints} /*options={}*/ />
+      <Marker position={props.center} icon="/images/car.png" />
     </GoogleMap>
   );
 });
