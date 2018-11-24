@@ -5,12 +5,22 @@ import { Button, Text, Icon } from 'native-base';
 import { sendImage } from '../services/upload';
 import { getPosition } from '../services/location';
 
+const CAPTURE_INTERVAL = 750;
+
 class CameraScreen extends React.Component {
   state = {
     sendStatus: 'idle',
+    capturing: false,
   };
 
-  onCapture = async () => {
+  onCapturePress = () => {
+    this.setState(state => {
+      if (!state.capturing) this.capture();
+      return { capturing: !state.capturing };
+    });
+  };
+
+  capture = async () => {
     if (this.camera) {
       const options = {
         width: 480,
@@ -19,13 +29,13 @@ class CameraScreen extends React.Component {
       const getLocation = getPosition();
       const results = await Promise.all([capture, getLocation]);
 
-      const data = results[0];
-      const location = results[1];
+      const uri = results[0].uri; // eslint-disable-line
+      const location = results[1].coords;
 
-      console.log({ data, location });
+      console.log({ uri, location });
 
       try {
-        await sendImage({ uri: data.uri });
+        await sendImage({ uri, location });
         this.setState({ sendStatus: 'success' });
       } catch (err) {
         console.log(err);
@@ -33,21 +43,25 @@ class CameraScreen extends React.Component {
       } finally {
         setTimeout(() => {
           this.setState({ sendStatus: 'idle' });
-        }, 750);
+        }, CAPTURE_INTERVAL);
       }
+
+      const { capturing } = this.state;
+      if (capturing) setTimeout(this.capture, CAPTURE_INTERVAL);
     }
   };
 
   StatusIcon = ({ sendStatus }) => {
     if (sendStatus === 'success')
-      return <Icon style={{ alignSelf: 'center', color: 'green' }} name="checkmark" />;
+      return <Icon style={{ alignSelf: 'center', color: 'white' }} name="checkmark" />;
     if (sendStatus === 'fail')
       return <Icon style={{ alignSelf: 'center', color: 'red' }} name="bug" />;
     return null;
   };
 
   render() {
-    const { sendStatus } = this.state;
+    const { sendStatus, capturing } = this.state;
+    console.log(capturing);
     return (
       <View style={styles.container}>
         <RNCamera
@@ -60,8 +74,15 @@ class CameraScreen extends React.Component {
           <View style={{ flexDirection: 'row' }}>
             <View style={styles.footerView} />
             <View style={styles.footerView}>
-              <Button onPress={this.onCapture} icon rounded light style={styles.capture}>
-                <Icon name="camera" />
+              <Button
+                onPress={this.onCapturePress}
+                icon
+                rounded
+                light={!capturing}
+                danger={capturing}
+                style={styles.capture}
+              >
+                <Icon style={{ color: capturing ? 'white' : 'black' }} name="camera" />
               </Button>
             </View>
             <View style={styles.footerView}>
