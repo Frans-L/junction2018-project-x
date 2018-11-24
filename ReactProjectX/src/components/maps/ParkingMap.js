@@ -30,8 +30,6 @@ const ParkingMap = compose(
         return <Marker position={pos} key={i} />
       }) */}
       {heatPolylines(parkingSpaces, props.cameraPoints).map((heatPolyline, i) => {
-        const hexHeat = (heatPolyline.heat * 255).toString(16).slice(0, 2);
-        console.log(heatPolyline.heat);
         return (
           <Polyline
             path={heatPolyline.path}
@@ -52,7 +50,6 @@ function heatPolylines(parkingSpaces, cameraPoints) {
       return {
         path: parkingSpace,
         heat: cameraPoints
-          .filter(cameraPoint => cameraPoint.has_car)
           .map(cameraPoint => 1 / distanceFromParkingSpace(cameraPoint, parkingSpace))
           .reduce((dist1, dist2) => dist1 + dist2, 0),
       };
