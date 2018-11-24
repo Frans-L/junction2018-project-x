@@ -1,27 +1,28 @@
 import React, { Component } from 'react';
 import { createGlobalStyle } from 'styled-components'
 import ParkingMap from './components/maps/ParkingMap'
+import getCameraData from './services/getCameraPoints'
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      center: undefined
+      center: undefined,
+      cameraPoints: []
     }
   }
 
   render() {
     return (
       <div className="App" >
-        <ParkingMap center={this.state.center} />
+        <ParkingMap center={this.state.center} cameraPoints={this.state.cameraPoints}/>
         <GlobalStyle />
       </div>
     );
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     navigator.geolocation.getCurrentPosition(position => {
-      console.log(position)
       let mapsLoc = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
@@ -29,6 +30,10 @@ class App extends Component {
       this.setState({
         center: mapsLoc
       })
+    })
+
+    this.setState({
+      cameraPoints: await getCameraData()
     })
   }
 }

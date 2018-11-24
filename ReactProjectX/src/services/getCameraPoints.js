@@ -1,0 +1,1 @@
+export default async () => await (await fetch('http://9d885e4e.ngrok.io/points')).json()
