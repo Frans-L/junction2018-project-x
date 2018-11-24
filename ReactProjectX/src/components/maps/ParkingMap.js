@@ -2,7 +2,7 @@ import React from 'react';
 import { compose, withProps } from 'recompose';
 import colorInterpolate from 'color-interpolate';
 import { withScriptjs, withGoogleMap, GoogleMap, Polyline, Marker } from 'react-google-maps';
-import ParkingSpaces from '../../data/ParkingSpaces';
+import parkingSpaces from '../../data/ParkingSpaces';
 import { distanceFromParkingSpace } from '../../tools/distanceFromLine';
 
 const colorMap = colorInterpolate(['green', 'yellow', 'red']);
@@ -29,7 +29,7 @@ const ParkingMap = compose(
         }
         return <Marker position={pos} key={i} />
       }) */}
-      {heatPolylines(ParkingSpaces, props.cameraPoints).map((heatPolyline, i) => {
+      {heatPolylines(parkingSpaces, props.cameraPoints).map((heatPolyline, i) => {
         const hexHeat = (heatPolyline.heat * 255).toString(16).slice(0, 2);
         console.log(heatPolyline.heat);
         return (
