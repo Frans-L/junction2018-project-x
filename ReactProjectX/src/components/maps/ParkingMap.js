@@ -4,6 +4,7 @@ import colorInterpolate from 'color-interpolate';
 import { withScriptjs, withGoogleMap, GoogleMap, Polyline, Marker } from 'react-google-maps';
 import parkingSpaces from '../../data/ParkingSpaces';
 import { distanceFromParkingSpace } from '../../tools/distanceFromLine';
+import styles from './styles';
 
 const colorMap = colorInterpolate(['green', 'yellow', 'red']);
 
@@ -21,7 +22,7 @@ const ParkingMap = compose(
   // console.log("heatPolylines", heatPolylines(parkingSpaces, props.cameraPoints))
 
   return (
-    <GoogleMap defaultZoom={16} defaultCenter={props.center}>
+    <GoogleMap defaultZoom={16} defaultCenter={props.center} options={{ styles }}>
       {/*props.cameraPoints.map((cameraPoint, i) => {
         let pos = {
           lat: cameraPoint.lat,
