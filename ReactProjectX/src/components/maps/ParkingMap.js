@@ -50,7 +50,7 @@ function heatPolylines(parkingSpaces, cameraPoints) {
       return {
         path: parkingSpace,
         heat: cameraPoints
-          .map(cameraPoint => 1 / distanceFromParkingSpace(cameraPoint, parkingSpace))
+          .map(cameraPoint => 1 / distanceFromParkingSpace(cameraPoint, parkingSpace) ** 2)
           .reduce((dist1, dist2) => dist1 + dist2, 0),
       };
     })
