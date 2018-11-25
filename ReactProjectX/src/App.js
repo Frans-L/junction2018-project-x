@@ -3,6 +3,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { Button, Header, Image, Modal, Icon } from 'semantic-ui-react';
 import ParkingMap from './components/maps/ParkingMap';
 import getCameraData from './services/getCameraPoints';
+import parkingInfo from './data/ParkingInfo';
 
 const UPDATE_INTERVAL = 1500;
 
@@ -13,7 +14,11 @@ class App extends Component {
       showMarkers: false,
       showUser: false,
       showMenu: true,
-      center: null,
+      center: {
+        lat: 60.186478,
+        lng: 24.834493,
+      },
+      userPos: null,
       cameraPoints: [],
       showInfo: null,
     };
@@ -21,12 +26,12 @@ class App extends Component {
 
   async componentDidMount() {
     navigator.geolocation.getCurrentPosition(position => {
-      const userPosition = {
+      const userPos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
       };
       this.setState({
-        center: userPosition,
+        userPos,
       });
     });
     this.updateData();
@@ -34,7 +39,7 @@ class App extends Component {
   }
 
   setDefaultPosition = () => {
-    if (!this.state.center) {
+    if (!this.state.userPos) {
       this.setState({
         center: {
           lat: 60.18497,
@@ -71,12 +76,15 @@ class App extends Component {
   };
 
   render() {
-    const { center, cameraPoints, showInfo, showMenu, showMarkers, showUser } = this.state;
+    const { center, cameraPoints, showInfo, showMenu, showMarkers, showUser, userPos } = this.state;
+    console.log(parkingInfo);
+    const pInfo = parkingInfo[showInfo || 0];
     if (center) {
       return (
         <div className="App">
           <ParkingMap
             center={center}
+            userPos={userPos}
             cameraPoints={cameraPoints}
             showInfo={showInfo}
             closeInfo={this.closeInfo}
@@ -86,15 +94,53 @@ class App extends Component {
           />
           <GlobalStyle />
           <Overlay>
-            <Modal onClick={this.showMap} open={showMenu} basic size="small">
+            <Modal open={showMenu} basic size="small">
               <MenuWrapper>
-                <Button basics inverted style={{ margin: '16px', fontSize: '1.25em' }}>
+                <Button
+                  onClick={this.showMap}
+                  basics
+                  inverted
+                  style={{ margin: '16px', fontSize: '1.25em' }}
+                >
                   <Icon name="map" style={{}} /> Open real-time map
                 </Button>
                 <Button color="white" inverted style={{ margin: '16px', fontSize: '1.25em' }}>
                   <Icon name="search" /> Find the closest free spot
                 </Button>
               </MenuWrapper>
+            </Modal>
+            <Modal open={showInfo} basic size="small">
+              <Modal.Content>
+                <h3>{pInfo.address}</h3>
+                <div role="list" class="ui list">
+                  <div role="listitem" class="item">
+                    <i aria-hidden="true" class="euro icon" />
+                    <div class="content">Price per hour - {pInfo.price}€</div>
+                  </div>
+                  <div role="listitem" class="item">
+                    <i aria-hidden="true" class="clock outline icon" />
+                    <div class="content">Maximum parking duration - {pInfo.parkTime}</div>
+                  </div>
+                  <div role="listitem" class="item">
+                    <i aria-hidden="true" class="mail icon" />
+                    <div class="content">The cars can be parked by the side of the road.</div>
+                  </div>
+                  <div role="listitem" class="item">
+                    <i aria-hidden="true" class="linkify icon" />
+                    <div class="content">
+                      <a href="http://www.semantic-ui.com">semantic-ui.com</a>
+                    </div>
+                  </div>
+                </div>
+              </Modal.Content>
+              <Modal.Actions>
+                <Button color="white" onClick={this.handleClose} inverted>
+                  <Icon name="checkmark" /> Close
+                </Button>
+                <Button color="white" onClick={this.handleClose} inverted>
+                  <Icon name="checkmark" /> Find a route
+                </Button>
+              </Modal.Actions>
             </Modal>
           </Overlay>
         </div>

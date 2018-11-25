@@ -55,7 +55,7 @@ const ParkingMap = compose(
       })}
       {props.showUser && (
         <Marker
-          position={props.center}
+          position={props.userPos}
           icon="/images/car.png"
           animation={window.google.maps.Animation.DROP}
         />
@@ -73,7 +73,6 @@ const ParkingMap = compose(
 
 const ParkMarkers = ({ showInfo, openInfo, closeInfo }) => {
   return parkingInfo.map((sign, i) => {
-    console.log(sign);
     return (
       <Marker
         position={sign}
