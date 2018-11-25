@@ -35,7 +35,7 @@ const ParkingMap = compose(
             path={heatPolyline.path}
             options={{
               strokeColor: heatPolyline.heatEnabled ? colorMap(heatPolyline.heat || 0) : '#999999',
-              strokeWeight: 12,
+              strokeWeight: 6,
             }}
             key={i}
           />
