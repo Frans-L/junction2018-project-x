@@ -100,7 +100,14 @@ class App extends Component {
   };
 
   startTampere = () => {
-    this.setState({ tampere: true, showMenu: false });
+    this.setState({
+      tampere: true,
+      showMenu: false,
+      center: {
+        lat: 61.49709,
+        lng: 23.762096,
+      },
+    });
   };
 
   render() {

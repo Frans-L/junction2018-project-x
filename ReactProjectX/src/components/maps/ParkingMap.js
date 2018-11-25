@@ -36,7 +36,12 @@ const ParkingMap = compose(
   const spaces = props.tampere ? tampereSpaces : parkingSpaces;
   console.log('>>>>', props);
   return (
-    <GoogleMap defaultZoom={16} defaultCenter={props.center} options={{ styles }}>
+    <GoogleMap
+      defaultZoom={16}
+      position={props.center}
+      center={props.center}
+      options={{ styles }}
+    >
       {false &&
         props.cameraPoints
           .filter(cp => cp.cars > 0)
