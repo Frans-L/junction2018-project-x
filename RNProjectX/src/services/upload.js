@@ -1,4 +1,4 @@
-const SERVER_URL = 'http://9d344f40.ngrok.io/img';
+const SERVER_URL = 'http://51.15.107.20:9999/img';
 
 export const sendImage = async ({ uri, location }, success, fail) => {
   const img = {
