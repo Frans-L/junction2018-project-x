@@ -55,7 +55,7 @@ class App extends Component {
         cameraPoints: await getCameraData(),
       });
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     } finally {
       setTimeout(this.updateData, UPDATE_INTERVAL);
     }
@@ -84,10 +84,8 @@ class App extends Component {
 
   render() {
     const { center, cameraPoints, showInfo, showMenu, showMarkers, showUser, userPos } = this.state;
-    console.log(parkingInfo);
     const pInfo = parkingInfo[showInfo || 0];
     const showInfoB = showInfo !== null;
-    console.log({ showInfo });
     if (center) {
       return (
         <div className="App">

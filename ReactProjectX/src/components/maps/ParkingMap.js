@@ -32,7 +32,6 @@ const ParkingMap = compose(
   withGoogleMap,
 )(props => {
   // console.log("heatPolylines", heatPolylines(parkingSpaces, props.cameraPoints))
-  console.log(props);
   return (
     <GoogleMap defaultZoom={16} defaultCenter={props.center} options={{ styles }}>
       {false &&
@@ -112,8 +111,6 @@ function heatPolylines(parkingSpaces, cameraPoints) {
       heat: heatPolyline.heat / maxHeat,
       heatEnabled: heatPolyline.heatEnabled,
     }));
-
-  console.log('maxHeat', maxHeat);
 
   return heatPolylines;
 }
