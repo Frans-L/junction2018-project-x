@@ -1,5 +1,5 @@
 export default async () => {
-  const cameraPoints = (await (await fetch('http://9d344f40.ngrok.io/points')).json()).map(
+  const cameraPoints = (await (await fetch('http://51.15.107.20/points')).json()).map(
     cameraPoint => ({
       lat: cameraPoint.latitude,
       lng: cameraPoint.longitude,
