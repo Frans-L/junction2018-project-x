@@ -19,22 +19,26 @@ const ParkingMap = compose(
   withScriptjs,
   withGoogleMap,
 )(props => {
-  // console.log("heatPolylines", heatPolylines(parkingSpaces, props.cameraPoints))
-
   return (
     <GoogleMap defaultZoom={16} defaultCenter={props.center} options={{ styles }}>
-      {/*props.cameraPoints.map((cameraPoint, i) => {
-        let pos = {
-          lat: cameraPoint.lat,
-          lng: cameraPoint.lng
-        }
-        return <Marker position={pos} key={i} />
-      }) */}
+      {process.env.DEBUG &&
+        props.cameraPoints.map((cameraPoint, i) => {
+          const pos = {
+            lat: cameraPoint.lat,
+            lng: cameraPoint.lng,
+          };
+          return <Marker position={pos} key={i} />;
+        })}
       {heatPolylines(parkingSpaces, props.cameraPoints).map((heatPolyline, i) => {
         return (
           <Polyline
             path={heatPolyline.path}
-            options={{ strokeColor: colorMap(heatPolyline.heat || 0), strokeWeight: 12 }}
+            options={{
+              strokeColor: heatPolyline.heatEnabled
+                ? colorMap(heatPolyline.heat || 0)
+                : 'rgb(88, 88, 88)',
+              strokeWeight: 12,
+            }}
             key={i}
           />
         );
@@ -57,6 +61,10 @@ function heatPolylines(parkingSpaces, cameraPoints) {
               cameraPoint.weight / distanceFromParkingSpace(cameraPoint, parkingSpace) ** 2,
           )
           .reduce((dist1, dist2) => dist1 + dist2, 0),
+        heatEnabled:
+          cameraPoints
+            .map(cameraPoint => distanceFromParkingSpace(cameraPoint, parkingSpace))
+            .sort()[0] < 0.001,
       };
     })
     .map(heatPolyline => {
@@ -66,6 +74,7 @@ function heatPolylines(parkingSpaces, cameraPoints) {
     .map(heatPolyline => ({
       path: heatPolyline.path,
       heat: heatPolyline.heat / maxHeat,
+      heatEnabled: heatPolyline.heatEnabled,
     }));
 }
 
