@@ -6,7 +6,7 @@ import parkingSpaces from '../../data/ParkingSpaces';
 import { distanceFromParkingSpace } from '../../tools/distanceFromLine';
 import styles from './styles';
 
-const colorMap = colorInterpolate(['#4db546', 'yellow', '#f88181']);
+const colorMap = colorInterpolate(['#4bb643', 'yellow', '#fb5050']);
 
 const ParkingMap = compose(
   withProps({
@@ -34,9 +34,7 @@ const ParkingMap = compose(
           <Polyline
             path={heatPolyline.path}
             options={{
-              strokeColor: heatPolyline.heatEnabled
-                ? colorMap(heatPolyline.heat || 0)
-                : 'rgb(88, 88, 88)',
+              strokeColor: heatPolyline.heatEnabled ? colorMap(heatPolyline.heat || 0) : '#999999',
               strokeWeight: 12,
             }}
             key={i}
