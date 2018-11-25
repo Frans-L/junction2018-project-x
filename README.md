@@ -1,4 +1,4 @@
-# junction2018-project-x
+# TrePark Live
 
 
 Find free parking spots by using machine learning and cameras that are embedded into public transports. Busses and trams are constantly roaming around the city, providing excellent coverage for the city centre area. Simple dash cams record the street side of roads and with the help of machine learning algorithms, data provided by third parties and the city of Tampere, we can determine where are free parking spots by computer vision and external data.
