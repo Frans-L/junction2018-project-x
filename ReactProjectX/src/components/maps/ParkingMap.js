@@ -1,8 +1,17 @@
 import React from 'react';
 import { compose, withProps } from 'recompose';
 import colorInterpolate from 'color-interpolate';
-import { withScriptjs, withGoogleMap, GoogleMap, Polyline, Marker } from 'react-google-maps';
+import {
+  withScriptjs,
+  withGoogleMap,
+  GoogleMap,
+  Polyline,
+  Marker,
+  InfoWindow,
+} from 'react-google-maps';
+import styled from 'styled-components';
 import parkingSpaces from '../../data/ParkingSpaces';
+import parkingInfo from '../../data/ParkingInfo';
 import { distanceFromParkingSpace } from '../../tools/distanceFromLine';
 import styles from './styles';
 
@@ -20,7 +29,7 @@ const ParkingMap = compose(
   withGoogleMap,
 )(props => {
   // console.log("heatPolylines", heatPolylines(parkingSpaces, props.cameraPoints))
-
+  console.log(window.google.maps.Animation);
   return (
     <GoogleMap defaultZoom={16} defaultCenter={props.center} options={{ styles }}>
       {/*props.cameraPoints.map((cameraPoint, i) => {
@@ -39,10 +48,46 @@ const ParkingMap = compose(
           />
         );
       })}
-      <Marker position={props.center} icon="/images/car.png" />
+      <Marker
+        position={props.center}
+        icon="/images/car.png"
+        animation={window.google.maps.Animation.cn}
+      />
+      <ParkMarkers
+        showInfo={props.showInfo}
+        openInfo={props.openInfo}
+        closeInfo={props.closeInfo}
+      />
     </GoogleMap>
   );
 });
+
+const ParkMarkers = ({ showInfo, openInfo, closeInfo }) => {
+  return parkingInfo.map((sign, i) => {
+    console.log(sign);
+    return (
+      <Marker
+        position={sign}
+        icon="/images/p_sign.png"
+        animation={window.google.maps.Animation.cn}
+        key={i}
+        onClick={() => openInfo(i)}
+      >
+        {showInfo === i && (
+          <InfoWindow onCloseClick={() => closeInfo}>
+            <InfoWindowContainer>
+              <b>{sign.address}</b>
+              <br/>
+              Price: {sign.address}€/h
+              <br/>
+              Time: {sign.parkTime}€/h
+            </InfoWindowContainer>
+          </InfoWindow>
+        )}
+      </Marker>
+    );
+  });
+};
 
 function heatPolylines(parkingSpaces, cameraPoints) {
   let maxHeat = 0;
@@ -68,5 +113,10 @@ function heatPolylines(parkingSpaces, cameraPoints) {
       heat: heatPolyline.heat / maxHeat,
     }));
 }
+
+const InfoWindowContainer = styled.div`
+  margin: 16px;
+  flex-basis: 1;
+`;
 
 export default ParkingMap;
