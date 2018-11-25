@@ -21,14 +21,16 @@ const ParkingMap = compose(
 )(props => {
   return (
     <GoogleMap defaultZoom={16} defaultCenter={props.center} options={{ styles }}>
-      {process.env.DEBUG &&
-        props.cameraPoints.map((cameraPoint, i) => {
-          const pos = {
-            lat: cameraPoint.lat,
-            lng: cameraPoint.lng,
-          };
-          return <Marker position={pos} key={i} />;
-        })}
+      {false &&
+        props.cameraPoints
+          .filter(cp => cp.cars > 0)
+          .map((cameraPoint, i) => {
+            const pos = {
+              lat: cameraPoint.lat,
+              lng: cameraPoint.lng,
+            };
+            return <Marker position={pos} key={i} />;
+          })}
       {heatPolylines(parkingSpaces, props.cameraPoints).map((heatPolyline, i) => {
         return (
           <Polyline
@@ -53,12 +55,7 @@ function heatPolylines(parkingSpaces, cameraPoints) {
     .map(parkingSpace => {
       return {
         path: parkingSpace,
-        heat: cameraPoints
-          .map(
-            cameraPoint =>
-              cameraPoint.weight / distanceFromParkingSpace(cameraPoint, parkingSpace) ** 2,
-          )
-          .reduce((dist1, dist2) => dist1 + dist2, 0),
+        heat: cameraPoints.filter(cp => distanceFromParkingSpace(cp, parkingSpace) < 0.0005).length,
         heatEnabled:
           cameraPoints
             .map(cameraPoint => distanceFromParkingSpace(cameraPoint, parkingSpace))
@@ -77,3 +74,7 @@ function heatPolylines(parkingSpaces, cameraPoints) {
 }
 
 export default ParkingMap;
+
+function parkingSpaceLength(ps) {
+  return ((ps[0].lat - ps[1].lat) ** 2 + (ps[0].lng - ps[1].lng) ** 2) ** 0.5;
+}
