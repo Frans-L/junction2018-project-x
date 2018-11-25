@@ -19,6 +19,7 @@ globals:
 rules:
   react/prefer-stateless-function: 0
   react/jsx-filename-extension: 0
+  react/no-unknown-property: 0
   quotes: [2, 'single']
   no-console: 0
   no-use-before-define: 0
