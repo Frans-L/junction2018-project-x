@@ -11,6 +11,9 @@ import json
 from matplotlib import pyplot as plt
 import shutil
 
+from google.cloud import vision
+client = vision.ImageAnnotatorClient()
+
 @hook('after_request')
 def enable_cors():
     """
@@ -66,33 +69,35 @@ for fn in files:
     with open(f'server/data/{fn}', 'r') as f:
         points.append(json.load(f))
 
-plt.ion()
+# plt.ion()
 
-model = cv2.CascadeClassifier('cars.xml')
+# model = cv2.CascadeClassifier('cars.xml')
 
 @route('/img', method=['POST'])
 def img():
     global points
 
-    print(request.forms['loc'])
+    # print(request.forms['loc'])
 
-    file = next(request.files.values()).file
-    data = np.asarray(bytearray(file.read()), np.uint8)
+    content = next(request.files.values()).file.read()
+    data = np.asarray(bytearray(content), np.uint8)
     orig = cv2.imdecode(data, cv2.CV_32S)
 
-    gray = cv2.cvtColor(orig, cv2.COLOR_RGB2GRAY)
+    # gray = cv2.cvtColor(orig, cv2.COLOR_RGB2GRAY)
 
-    # w, h, _ = orig.shape
+    w, h, _ = orig.shape
     # img = orig[int(w/3):int(-w/3), int(h/3):int(-h/3)]
 
     # img = sess.run([sm], feed_dict={tf_data: img.reshape([1, *img.shape]), tf_train: False})
 
-    cars = model.detectMultiScale(gray, 1.1, 1)
+    # cars = model.detectMultiScale(gray, 1.1, 1)
 
     # img = np.array(img)
 
-    # plt.imshow(img[0, 0, :, :, 0])
-    # plt.pause(0.01)
+    image = vision.types.Image(content=content)
+
+    objects = client.object_localization(
+        image=image).localized_object_annotations
 
     # has_car = np.average(img[0, 0, :, :, 0]) > 0.5
 
@@ -109,14 +114,15 @@ def img():
         'cars': [],
     }
 
-    for (x, y, w, h) in cars:
+    for obj in objects:
+        if obj.name != 'Car':
+            continue
+        pts = np.array([[w*v.x, h*v.y] for v in obj.bounding_poly.normalized_vertices], dtype=np.int32)
+        print(pts)
         data['cars'].append({
-            'x': int(x),
-            'y': int(y),
-            'w': int(w),
-            'h': int(h),
+            'confidence': obj.score,
         })
-        cv2.rectangle(orig, (x, y), (x+w, y+h), (0, 0, 255), 2)
+        cv2.polylines(orig, [pts], True, (0, 0, 255), 2)
 
     points.append(data)
 
@@ -149,6 +155,6 @@ def clear():
 
 if __name__ == '__main__':
     try:
-        run(host='0.0.0.0', port=8000, server='auto')
+        run(host='0.0.0.0', port=9999, server='auto')
     finally:
         print('detaching...')

@@ -14,3 +14,4 @@ PythonServer/lib
 PythonServer/bin
 PythonServer/include
 PythonServer/server/__pycache__
+PythonServer/server/*data*
