@@ -69,6 +69,8 @@ for fn in files:
     with open(f'server/data/{fn}', 'r') as f:
         points.append(json.load(f))
 
+points.sort(key=lambda p: p['timestamp'])
+
 # plt.ion()
 
 # model = cv2.CascadeClassifier('cars.xml')
