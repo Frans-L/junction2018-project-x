@@ -1,6 +1,10 @@
 # junction2018-project-x
 
 
+## Clear server
+
+> curl -X "DELETE" http://9d344f40.ngrok.io/clear
+
 ## Winning criteria 
 
 - Innovativeness: a new solution, not an existing product (0-5 points)

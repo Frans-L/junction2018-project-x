@@ -21,6 +21,7 @@ class App extends Component {
       userPos: null,
       cameraPoints: [],
       showInfo: null,
+      tampere: false,
     };
   }
 
@@ -76,14 +77,50 @@ class App extends Component {
   };
 
   findRoute = address => {
-    const { userPos } = this.state;
-    window.location.href = `https://www.google.com/maps/dir/${userPos.lat},${
-      userPos.lng
-    }/${address}`;
+    const { userPos, center } = this.state;
+    const pos = userPos || center;
+    window.location.href = `https://www.google.com/maps/dir/${pos.lat},${pos.lng}/${address}`;
+  };
+
+  findTheClosest = () => {
+    const { userPos, center } = this.state;
+    const pos = userPos || center;
+    let minDist = 99999;
+    let minI = 0;
+    parkingInfo.forEach((p, i) => {
+      const d = (p.lat - pos.lat) ** 2 + (p.lng - p.lng) ** 2;
+      if (minDist > minI) {
+        minDist = d;
+        minI = i;
+      }
+    });
+
+    const { address } = parkingInfo[minI];
+    window.location.href = `https://www.google.com/maps/dir/${pos.lat},${pos.lng}/${address}`;
+  };
+
+  startTampere = () => {
+    this.setState({
+      tampere: true,
+      showMenu: false,
+      center: {
+        lat: 61.49709,
+        lng: 23.762096,
+      },
+    });
   };
 
   render() {
-    const { center, cameraPoints, showInfo, showMenu, showMarkers, showUser, userPos } = this.state;
+    const {
+      center,
+      cameraPoints,
+      showInfo,
+      showMenu,
+      showMarkers,
+      showUser,
+      userPos,
+      tampere,
+    } = this.state;
     const pInfo = parkingInfo[showInfo || 0];
     const showInfoB = showInfo !== null;
     if (center) {
@@ -98,6 +135,7 @@ class App extends Component {
             openInfo={this.openInfo}
             showMarkers={showMarkers}
             showUser={showUser}
+            tampere={tampere}
           />
           <GlobalStyle />
           <Overlay>
@@ -109,10 +147,22 @@ class App extends Component {
                   inverted
                   style={{ margin: '16px', fontSize: '1.25em' }}
                 >
-                  <Icon name="map" style={{}} /> Open real-time map
+                  <Icon name="map" /> Open real-time map
                 </Button>
-                <Button color="white" inverted style={{ margin: '16px', fontSize: '1.25em' }}>
-                  <Icon name="search" /> Find the closest free spot
+                <Button
+                  onClick={this.findTheClosest}
+                  inverted
+                  style={{ margin: '16px', fontSize: '1.25em' }}
+                >
+                  <Icon name="search" /> Find the closest spot
+                </Button>
+                <Button
+                  onClick={this.startTampere}
+                  basics
+                  inverted
+                  style={{ margin: '16px', fontSize: '1.25em' }}
+                >
+                  <Icon name="home" /> Open Tampere demo
                 </Button>
               </MenuWrapper>
             </Modal>
@@ -141,10 +191,10 @@ class App extends Component {
                 </div>
               </Modal.Content>
               <Modal.Actions>
-                <Button onClick={this.closeInfo} color="white" inverted>
+                <Button onClick={this.closeInfo} inverted>
                   <Icon name="close" /> Close
                 </Button>
-                <Button color="white" onClick={() => this.findRoute(pInfo.address)} inverted>
+                <Button onClick={() => this.findRoute(pInfo.address)} inverted>
                   <Icon name="map outline" /> Find a route
                 </Button>
               </Modal.Actions>
