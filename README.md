@@ -7,5 +7,11 @@ Users can find free parking spots easily by our website http://trepark.live . Th
  
 We hope for our project to serve citizens of Tampere to find their parking spot the best they can in the heart of the city. Stress free, without rush, and hassle free.
 
+## Techonologies
+
+- React (FrontEnd)
+- React Native (Camera dash cam)
+- Python + Google vision (Backend)
+
 Live demo:
 http://trepark.live
