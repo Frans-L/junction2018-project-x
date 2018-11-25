@@ -1,17 +1,35 @@
 # TrePark Live
 
+One of the most frustrating things in cities is to find a free parking slot. Fortunately, we have solution for the problem!
 
-Find free parking spots by using machine learning and cameras that are embedded into public transports. Busses and trams are constantly roaming around the city, providing excellent coverage for the city centre area. Simple dash cams record the street side of roads and with the help of machine learning algorithms, data provided by third parties and the city of Tampere, we can determine where are free parking spots by computer vision and external data.
+TrePark Live is a service that shows free parking spots on a map. The service is using the live video feed of the dash cams of the public transport. It recognizes the free parkings slots on real-time and draws them on a map.
 
-Users can find free parking spots easily by our website http://trepark.live . There is navigation to closest free parking spot and real time updating map view that updates whenever a camera is on the move. Current demo environment with full functionality can be found in Otaniemi with live camera demo at our booth, also Tampere is modelled and operation ready, waiting for camera deployment in the actual Tampere region.
- 
-We hope for our project to serve citizens of Tampere to find their parking spot the best they can in the heart of the city. Stress free, without rush, and hassle free.
+In 48 hours, we have built a mobile app that functions as a dash cam. It films the road, and sends the video and its current location to a server. The server detects cars with Google Vision API, and updates the info to a map. Our website that is during the competition http://trepark.live draws the free parking spots over OpenStreetMaps on real-time.
+
+Note: After the competition the website won't be anymore running.
+
+## Demo
+
+Car detection:
+<p align="center">
+  <img src="https://github.com/Frans-L/junction2018-project-x/blob/master/media/detection.png?raw=true" alt="Car detection"/>
+</p>
+
+The map updates on real-time, when a buss (in our demo, our car) drives next to parking slots.
+
+<p align="center">
+  <img src="https://github.com/Frans-L/junction2018-project-x/blob/master/media/map.gif?raw=true" alt="Map updates on real-time"/>
+</p>
+
+## Future
+
+The project was built in 48 hours during the Junction 2018.
+
+If you are interested in the project, feel free to contact us :)
 
 ## Techonologies
 
-- React (FrontEnd)
-- React Native (Camera dash cam)
-- Python + Google vision (Backend)
+- React (frontend)
+- React Native (dash cam)
+- Python + Google vision (backend)
 
-Live demo:
-http://trepark.live
