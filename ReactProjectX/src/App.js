@@ -75,10 +75,19 @@ class App extends Component {
     setTimeout(() => this.setState({ showMarkers: true }), 1000);
   };
 
+  findRoute = address => {
+    const { userPos } = this.state;
+    window.location.href = `https://www.google.com/maps/dir/${userPos.lat},${
+      userPos.lng
+    }/${address}`;
+  };
+
   render() {
     const { center, cameraPoints, showInfo, showMenu, showMarkers, showUser, userPos } = this.state;
     console.log(parkingInfo);
     const pInfo = parkingInfo[showInfo || 0];
+    const showInfoB = showInfo !== null;
+    console.log({ showInfo });
     if (center) {
       return (
         <div className="App">
@@ -109,36 +118,36 @@ class App extends Component {
                 </Button>
               </MenuWrapper>
             </Modal>
-            <Modal open={showInfo} basic size="small">
+            <Modal open={showInfoB} basic size="small">
               <Modal.Content>
                 <h3>{pInfo.address}</h3>
                 <div role="list" class="ui list">
                   <div role="listitem" class="item">
                     <i aria-hidden="true" class="euro icon" />
-                    <div class="content">Price per hour - {pInfo.price}€</div>
+                    <div class="content">Price per hour - {pInfo.price}</div>
                   </div>
                   <div role="listitem" class="item">
                     <i aria-hidden="true" class="clock outline icon" />
                     <div class="content">Maximum parking duration - {pInfo.parkTime}</div>
                   </div>
                   <div role="listitem" class="item">
-                    <i aria-hidden="true" class="mail icon" />
+                    <i aria-hidden="true" class="search icon" />
                     <div class="content">The cars can be parked by the side of the road.</div>
                   </div>
                   <div role="listitem" class="item">
                     <i aria-hidden="true" class="linkify icon" />
                     <div class="content">
-                      <a href="http://www.semantic-ui.com">semantic-ui.com</a>
+                      <a href={`https://www.google.com/maps/place/${pInfo.address}`}>Google Maps</a>
                     </div>
                   </div>
                 </div>
               </Modal.Content>
               <Modal.Actions>
-                <Button color="white" onClick={this.handleClose} inverted>
-                  <Icon name="checkmark" /> Close
+                <Button onClick={this.closeInfo} color="white" inverted>
+                  <Icon name="close" /> Close
                 </Button>
-                <Button color="white" onClick={this.handleClose} inverted>
-                  <Icon name="checkmark" /> Find a route
+                <Button color="white" onClick={() => this.findRoute(pInfo.address)} inverted>
+                  <Icon name="map outline" /> Find a route
                 </Button>
               </Modal.Actions>
             </Modal>

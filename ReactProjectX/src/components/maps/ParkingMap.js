@@ -80,20 +80,7 @@ const ParkMarkers = ({ showInfo, openInfo, closeInfo }) => {
         animation={window.google.maps.Animation.DROP}
         key={i}
         onClick={() => openInfo(i)}
-      >
-        {showInfo === i && (
-          <InfoWindow onCloseClick={() => closeInfo}>
-            <InfoWindowContainer>
-              <b>{sign.address}</b>
-              <br />
-              <br />
-              Price: {sign.price}€/h
-              <br />
-              Time: {sign.parkTime}
-            </InfoWindowContainer>
-          </InfoWindow>
-        )}
-      </Marker>
+      />
     );
   });
 };
