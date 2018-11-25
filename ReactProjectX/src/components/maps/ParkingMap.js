@@ -10,6 +10,7 @@ import {
   InfoWindow,
 } from 'react-google-maps';
 import styled from 'styled-components';
+
 import parkingSpaces from '../../data/ParkingSpaces';
 import parkingInfo from '../../data/ParkingInfo';
 import { distanceFromParkingSpace } from '../../tools/distanceFromLine';
@@ -29,7 +30,7 @@ const ParkingMap = compose(
   withGoogleMap,
 )(props => {
   // console.log("heatPolylines", heatPolylines(parkingSpaces, props.cameraPoints))
-  console.log(window.google.maps.Animation);
+  console.log(props);
   return (
     <GoogleMap defaultZoom={16} defaultCenter={props.center} options={{ styles }}>
       {process.env.DEBUG &&
@@ -52,16 +53,20 @@ const ParkingMap = compose(
           />
         );
       })}
-      <Marker
-        position={props.center}
-        icon="/images/car.png"
-        animation={window.google.maps.Animation.cn}
-      />
-      <ParkMarkers
-        showInfo={props.showInfo}
-        openInfo={props.openInfo}
-        closeInfo={props.closeInfo}
-      />
+      {props.showUser && (
+        <Marker
+          position={props.center}
+          icon="/images/car.png"
+          animation={window.google.maps.Animation.DROP}
+        />
+      )}
+      {props.showMarkers && (
+        <ParkMarkers
+          showInfo={props.showInfo}
+          openInfo={props.openInfo}
+          closeInfo={props.closeInfo}
+        />
+      )}
     </GoogleMap>
   );
 });
@@ -73,7 +78,7 @@ const ParkMarkers = ({ showInfo, openInfo, closeInfo }) => {
       <Marker
         position={sign}
         icon="/images/p_sign.png"
-        animation={window.google.maps.Animation.cn}
+        animation={window.google.maps.Animation.DROP}
         key={i}
         onClick={() => openInfo(i)}
       >
