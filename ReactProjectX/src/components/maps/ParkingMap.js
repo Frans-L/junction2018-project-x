@@ -15,7 +15,7 @@ import parkingInfo from '../../data/ParkingInfo';
 import { distanceFromParkingSpace } from '../../tools/distanceFromLine';
 import styles from './styles';
 
-const colorMap = colorInterpolate(['#4db546', 'yellow', '#f88181']);
+const colorMap = colorInterpolate(['#4bb643', 'yellow', '#fb5050']);
 
 const ParkingMap = compose(
   withProps({
@@ -32,18 +32,22 @@ const ParkingMap = compose(
   console.log(window.google.maps.Animation);
   return (
     <GoogleMap defaultZoom={16} defaultCenter={props.center} options={{ styles }}>
-      {/*props.cameraPoints.map((cameraPoint, i) => {
-        let pos = {
-          lat: cameraPoint.lat,
-          lng: cameraPoint.lng
-        }
-        return <Marker position={pos} key={i} />
-      }) */}
+      {process.env.DEBUG &&
+        props.cameraPoints.map((cameraPoint, i) => {
+          const pos = {
+            lat: cameraPoint.lat,
+            lng: cameraPoint.lng,
+          };
+          return <Marker position={pos} key={i} />;
+        })}
       {heatPolylines(parkingSpaces, props.cameraPoints).map((heatPolyline, i) => {
         return (
           <Polyline
             path={heatPolyline.path}
-            options={{ strokeColor: colorMap(heatPolyline.heat || 0), strokeWeight: 12 }}
+            options={{
+              strokeColor: heatPolyline.heatEnabled ? colorMap(heatPolyline.heat || 0) : '#999999',
+              strokeWeight: 6,
+            }}
             key={i}
           />
         );
@@ -77,10 +81,11 @@ const ParkMarkers = ({ showInfo, openInfo, closeInfo }) => {
           <InfoWindow onCloseClick={() => closeInfo}>
             <InfoWindowContainer>
               <b>{sign.address}</b>
-              <br/>
-              Price: {sign.address}€/h
-              <br/>
-              Time: {sign.parkTime}€/h
+              <br />
+              <br />
+              Price: {sign.price}€/h
+              <br />
+              Time: {sign.parkTime}
             </InfoWindowContainer>
           </InfoWindow>
         )}
@@ -102,6 +107,10 @@ function heatPolylines(parkingSpaces, cameraPoints) {
               cameraPoint.weight / distanceFromParkingSpace(cameraPoint, parkingSpace) ** 2,
           )
           .reduce((dist1, dist2) => dist1 + dist2, 0),
+        heatEnabled:
+          cameraPoints
+            .map(cameraPoint => distanceFromParkingSpace(cameraPoint, parkingSpace))
+            .sort()[0] < 0.001,
       };
     })
     .map(heatPolyline => {
@@ -111,6 +120,7 @@ function heatPolylines(parkingSpaces, cameraPoints) {
     .map(heatPolyline => ({
       path: heatPolyline.path,
       heat: heatPolyline.heat / maxHeat,
+      heatEnabled: heatPolyline.heatEnabled,
     }));
 }
 
