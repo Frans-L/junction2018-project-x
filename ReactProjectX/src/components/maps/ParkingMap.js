@@ -18,6 +18,8 @@ import styles from './styles';
 
 const colorMap = colorInterpolate(['#4bb643', 'yellow', '#fb5050']);
 
+const nightRideBackAndForthMaxHeat = 6;
+
 const ParkingMap = compose(
   withProps({
     googleMapURL:
@@ -88,9 +90,9 @@ const ParkMarkers = ({ showInfo, openInfo, closeInfo }) => {
 };
 
 function heatPolylines(parkingSpaces, cameraPoints) {
-  let maxHeat = 0;
+  let maxHeat = nightRideBackAndForthMaxHeat;
 
-  return parkingSpaces
+  const heatPolylines = parkingSpaces
     .map(parkingSpace => {
       return {
         path: parkingSpace,
@@ -110,6 +112,10 @@ function heatPolylines(parkingSpaces, cameraPoints) {
       heat: heatPolyline.heat / maxHeat,
       heatEnabled: heatPolyline.heatEnabled,
     }));
+
+  console.log('maxHeat', maxHeat);
+
+  return heatPolylines;
 }
 
 const InfoWindowContainer = styled.div`
