@@ -12,6 +12,7 @@ import {
 import styled from 'styled-components';
 
 import parkingSpaces from '../../data/ParkingSpaces';
+import tampereSpaces from '../../data/Tampere';
 import parkingInfo from '../../data/ParkingInfo';
 import { distanceFromParkingSpace } from '../../tools/distanceFromLine';
 import styles from './styles';
@@ -30,7 +31,8 @@ const ParkingMap = compose(
   withGoogleMap,
 )(props => {
   // console.log("heatPolylines", heatPolylines(parkingSpaces, props.cameraPoints))
-  console.log(props);
+  const spaces = props.tampere ? tampereSpaces : parkingSpaces;
+  console.log('>>>>', props);
   return (
     <GoogleMap defaultZoom={16} defaultCenter={props.center} options={{ styles }}>
       {false &&
@@ -43,7 +45,7 @@ const ParkingMap = compose(
             };
             return <Marker position={pos} key={i} />;
           })}
-      {heatPolylines(parkingSpaces, props.cameraPoints).map((heatPolyline, i) => {
+      {heatPolylines(spaces, props.cameraPoints).map((heatPolyline, i) => {
         return (
           <Polyline
             path={heatPolyline.path}
